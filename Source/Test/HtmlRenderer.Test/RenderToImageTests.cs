@@ -54,28 +54,38 @@ You can discuss everything.</p>
             var iter = 10;
 
             // warmup
-            var image = TheArtOfDev.HtmlRenderer.WinForms.HtmlRender.RenderToImage("<h1>HtmlRenderer.WinForms</h1>" + html, new Size(794, 1123), Color.White);
-            image = HtmlRender.RenderToImage("<h1>HtmlRenderer.Web</h1>" + html, 794, 1123, 94, Color.White);
+            var image = TheArtOfDev.HtmlRenderer.WinForms.HtmlRender.RenderToImage(html, new Size(794, 1123), Color.White);
+            image = TheArtOfDev.HtmlRenderer.WinForms.HtmlRender.RenderToImageGdiPlus(html, new Size(794, 1123));
+            image = HtmlRender.RenderToImage(html, 794, 1123, 94, Color.White);
 
             timer.Start();
             for (int i = 0; i < iter; i++) {
-                image = TheArtOfDev.HtmlRenderer.WinForms.HtmlRender.RenderToImage("<h1>HtmlRenderer.WinForms</h1>" + html, new Size(794, 1123), Color.White);
-                image.Save(@"C:\Temp\html1.png", ImageFormat.Png);
+                image = TheArtOfDev.HtmlRenderer.WinForms.HtmlRender.RenderToImage("<h1>WinForms.RenderToImage</h1>" + html, new Size(794, 1123), Color.White);
+                image.Save(@"C:\Temp\WinForms.RenderToImage.png", ImageFormat.Png);
             }
             timer.Stop();
             var time1 = timer.ElapsedMilliseconds / iter;
+
+            timer.Start();
+            for (int i = 0; i < iter; i++) {
+                image = TheArtOfDev.HtmlRenderer.WinForms.HtmlRender.RenderToImageGdiPlus("<h1>WinForms.RenderToImageGdiPlus</h1>" + html, new Size(794, 1123));
+                image.Save(@"C:\Temp\WinForms.RenderToImageGdiPlus.png", ImageFormat.Png);
+            }
+            timer.Stop();
+            var time2 = timer.ElapsedMilliseconds / iter;
          
             
             timer.Restart();
             for (int i = 0; i < iter; i++) {
-                image = HtmlRender.RenderToImage("<h1>HtmlRenderer.Web</h1>" + html, 794, 1123, 94, Color.White);
-                image.Save(@"C:\Temp\html2.png", ImageFormat.Png);
+                image = HtmlRenderer.Web.HtmlRender.RenderToImage("<h1>Web.RenderToImage</h1>" + html, 794, 1123, 0, Color.White);
+                image.Save(@"C:\Temp\Web.RenderToImage.png", ImageFormat.Png);
             }
             timer.Stop();
-            var time2 = timer.ElapsedMilliseconds / iter;
+            var time3 = timer.ElapsedMilliseconds / iter;
 
-            Assert.IsTrue(time1 < 60);
-            Assert.IsTrue(time2 < 60);
+            Assert.IsTrue(time1 < 100);
+            Assert.IsTrue(time2 < 100);
+            Assert.IsTrue(time3 < 100);
         }
 
     }

@@ -44,6 +44,8 @@ namespace HtmlRenderer.Web {
 
             var image = new Bitmap(width, height, PixelFormat.Format32bppArgb);
             using (var g = Graphics.FromImage(image)) {
+                g.SmoothingMode = SmoothingMode.HighQuality;
+                g.TextRenderingHint = TextRenderingHint.AntiAlias;
                 g.Clear(backgroundColor);
 
                 using (var container = new HtmlContainerInt(WebAdapter.Instance)) {
