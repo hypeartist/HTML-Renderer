@@ -77,7 +77,7 @@ You can discuss everything.</p>
             
             timer.Restart();
             for (int i = 0; i < iter; i++) {
-                image = HtmlRenderer.Web.HtmlRender.RenderToImage("<h1>Web.RenderToImage</h1>" + html, 794, 1123, 0, Color.White);
+                image = HtmlRenderer.Web.HtmlRender.RenderToImage("<h1>Web.RenderToImage</h1>" + html, 794, 1123, 94, Color.White);
                 image.Save(@"C:\Temp\Web.RenderToImage.png", ImageFormat.Png);
             }
             timer.Stop();
