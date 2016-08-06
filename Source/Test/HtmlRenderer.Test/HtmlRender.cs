@@ -82,116 +82,8 @@ namespace HtmlRenderer.Test {
     /// </para>
     /// </example>
     public static class HtmlRender {
-        /// <summary>
-        /// Adds a font family to be used in html rendering.<br/>
-        /// The added font will be used by all rendering function including <see cref="HtmlContainer"/> and all WinForms controls.
-        /// </summary>
-        /// <remarks>
-        /// The given font family instance must be remain alive while the renderer is in use.<br/>
-        /// If loaded to <see cref="PrivateFontCollection"/> then the collection must be alive.<br/>
-        /// If loaded from file then the file must not be deleted.
-        /// </remarks>
-        /// <param name="fontFamily">The font family to add.</param>
-        public static void AddFontFamily(FontFamily fontFamily) {
-            ArgChecker.AssertArgNotNull(fontFamily, "fontFamily");
-
-            TestAdapter.Instance.AddFontFamily(new FontFamilyAdapter(fontFamily));
-        }
-
-        /// <summary>
-        /// Adds a font mapping from <paramref name="fromFamily"/> to <paramref name="toFamily"/> iff the <paramref name="fromFamily"/> is not found.<br/>
-        /// When the <paramref name="fromFamily"/> font is used in rendered html and is not found in existing 
-        /// fonts (installed or added) it will be replaced by <paramref name="toFamily"/>.<br/>
-        /// </summary>
-        /// <remarks>
-        /// This fonts mapping can be used as a fallback in case the requested font is not installed in the client system.
-        /// </remarks>
-        /// <param name="fromFamily">the font family to replace</param>
-        /// <param name="toFamily">the font family to replace with</param>
-        public static void AddFontFamilyMapping(string fromFamily, string toFamily) {
-            ArgChecker.AssertArgNotNullOrEmpty(fromFamily, "fromFamily");
-            ArgChecker.AssertArgNotNullOrEmpty(toFamily, "toFamily");
-
-            TestAdapter.Instance.AddFontFamilyMapping(fromFamily, toFamily);
-        }
-
-        /// <summary>
-        /// Parse the given stylesheet to <see cref="CssData"/> object.<br/>
-        /// If <paramref name="combineWithDefault"/> is true the parsed css blocks are added to the 
-        /// default css data (as defined by W3), merged if class name already exists. If false only the data in the given stylesheet is returned.
-        /// </summary>
-        /// <seealso cref="http://www.w3.org/TR/CSS21/sample.html"/>
-        /// <param name="stylesheet">the stylesheet source to parse</param>
-        /// <param name="combineWithDefault">true - combine the parsed css data with default css data, false - return only the parsed css data</param>
-        /// <returns>the parsed css data</returns>
-        public static CssData ParseStyleSheet(string stylesheet, bool combineWithDefault = true) {
-            return CssData.Parse(TestAdapter.Instance, stylesheet, combineWithDefault);
-        }
 
 
-        /// <summary>
-        /// Measure the size (width and height) required to draw the given html under given max width restriction.<br/>
-        /// If no max width restriction is given the layout will use the maximum possible width required by the content,
-        /// it can be the longest text line or full image width.<br/>
-        /// Use GDI text rendering, note <see cref="Graphics.TextRenderingHint"/> has no effect.
-        /// </summary>
-        /// <param name="g">Device to use for measure</param>
-        /// <param name="html">HTML source to render</param>
-        /// <param name="maxWidth">optional: bound the width of the html to render in (default - 0, unlimited)</param>
-        /// <param name="cssData">optional: the style to use for html rendering (default - use W3 default style)</param>
-        /// <param name="stylesheetLoad">optional: can be used to overwrite stylesheet resolution logic</param>
-        /// <param name="imageLoad">optional: can be used to overwrite image resolution logic</param>
-        /// <returns>the size required for the html</returns>
-        public static SizeF Measure(Graphics g, string html, float maxWidth = 0, CssData cssData = null,
-            EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlImageLoadEventArgs> imageLoad = null) {
-            ArgChecker.AssertArgNotNull(g, "g");
-            return Measure(g, html, maxWidth, cssData, false, stylesheetLoad, imageLoad);
-        }
-
-        /// <summary>
-        /// Renders the specified HTML source on the specified location and max width restriction.<br/>
-        /// Use GDI text rendering, note <see cref="Graphics.TextRenderingHint"/> has no effect.<br/>
-        /// If <paramref name="maxWidth"/> is zero the html will use all the required width, otherwise it will perform line 
-        /// wrap as specified in the html<br/>
-        /// Returned is the actual width and height of the rendered html.<br/>
-        /// </summary>
-        /// <param name="g">Device to render with</param>
-        /// <param name="html">HTML source to render</param>
-        /// <param name="left">optional: the left most location to start render the html at (default - 0)</param>
-        /// <param name="top">optional: the top most location to start render the html at (default - 0)</param>
-        /// <param name="maxWidth">optional: bound the width of the html to render in (default - 0, unlimited)</param>
-        /// <param name="cssData">optional: the style to use for html rendering (default - use W3 default style)</param>
-        /// <param name="stylesheetLoad">optional: can be used to overwrite stylesheet resolution logic</param>
-        /// <param name="imageLoad">optional: can be used to overwrite image resolution logic</param>
-        /// <returns>the actual size of the rendered html</returns>
-        public static SizeF Render(Graphics g, string html, float left = 0, float top = 0, float maxWidth = 0, CssData cssData = null,
-            EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlImageLoadEventArgs> imageLoad = null) {
-            ArgChecker.AssertArgNotNull(g, "g");
-            return RenderClip(g, html, new PointF(left, top), new SizeF(maxWidth, 0), cssData, false, stylesheetLoad, imageLoad);
-        }
-
-        /// <summary>
-        /// Renders the specified HTML source on the specified location and max size restriction.<br/>
-        /// Use GDI text rendering, note <see cref="Graphics.TextRenderingHint"/> has no effect.<br/>
-        /// If <paramref name="maxSize"/>.Width is zero the html will use all the required width, otherwise it will perform line 
-        /// wrap as specified in the html<br/>
-        /// If <paramref name="maxSize"/>.Height is zero the html will use all the required height, otherwise it will clip at the
-        /// given max height not rendering the html below it.<br/>
-        /// Returned is the actual width and height of the rendered html.<br/>
-        /// </summary>
-        /// <param name="g">Device to render with</param>
-        /// <param name="html">HTML source to render</param>
-        /// <param name="location">the top-left most location to start render the html at</param>
-        /// <param name="maxSize">the max size of the rendered html (if height above zero it will be clipped)</param>
-        /// <param name="cssData">optional: the style to use for html rendering (default - use W3 default style)</param>
-        /// <param name="stylesheetLoad">optional: can be used to overwrite stylesheet resolution logic</param>
-        /// <param name="imageLoad">optional: can be used to overwrite image resolution logic</param>
-        /// <returns>the actual size of the rendered html</returns>
-        public static SizeF Render(Graphics g, string html, PointF location, SizeF maxSize, CssData cssData = null,
-            EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlImageLoadEventArgs> imageLoad = null) {
-            ArgChecker.AssertArgNotNull(g, "g");
-            return RenderClip(g, html, location, maxSize, cssData, false, stylesheetLoad, imageLoad);
-        }
 
         /// <summary>
         /// Renders the specified HTML into a new image of the requested size.<br/>
@@ -209,7 +101,7 @@ namespace HtmlRenderer.Test {
         /// <param name="imageLoad">optional: can be used to overwrite image resolution logic</param>
         /// <returns>the generated image of the html</returns>
         /// <exception cref="ArgumentOutOfRangeException">if <paramref name="backgroundColor"/> is <see cref="Color.Transparent"/></exception>.
-        public static Image RenderToImage(string html, Size size, Color backgroundColor = new Color(), CssData cssData = null,
+        public static Image RenderToImage1(string html, Size size, Color backgroundColor = new Color(), CssData cssData = null,
             EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlImageLoadEventArgs> imageLoad = null) {
             if (backgroundColor == Color.Transparent)
                 throw new ArgumentOutOfRangeException("backgroundColor", "Transparent background in not supported");
@@ -240,76 +132,140 @@ namespace HtmlRenderer.Test {
             return image;
         }
 
-        #region Private methods
+
+
 
         /// <summary>
-        /// Measure the size (width and height) required to draw the given html under given width and height restrictions.<br/>
+        /// Renders the specified HTML into a new image of the requested size.<br/>
+        /// The HTML will be layout by the given size but will be clipped if cannot fit.<br/>
+        /// <p>
+        /// Limitation: The image cannot have transparent background, by default it will be white.<br/>
+        /// See "Rendering to image" remarks section on <see cref="HtmlRender"/>.<br/>
+        /// </p>
         /// </summary>
-        /// <param name="g">Device to use for measure</param>
         /// <param name="html">HTML source to render</param>
-        /// <param name="maxWidth">optional: bound the width of the html to render in (default - 0, unlimited)</param>
-        /// <param name="cssData">optional: the style to use for html rendering (default - use W3 default style)</param>
-        /// <param name="useGdiPlusTextRendering">true - use GDI+ text rendering, false - use GDI text rendering</param>
-        /// <param name="stylesheetLoad">optional: can be used to overwrite stylesheet resolution logic</param>
-        /// <param name="imageLoad">optional: can be used to overwrite image resolution logic</param>
-        /// <returns>the size required for the html</returns>
-        private static SizeF Measure(Graphics g, string html, float maxWidth, CssData cssData, bool useGdiPlusTextRendering,
-            EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad, EventHandler<HtmlImageLoadEventArgs> imageLoad) {
-            SizeF actualSize = SizeF.Empty;
+        /// <param name="size">The size of the image to render into, layout html by width and clipped by height</param>
+        /// <param name="backgroundColor">optional: the color to fill the image with (default - white)</param>
+        /// <returns>the generated image of the html</returns>
+        /// <exception cref="ArgumentOutOfRangeException">if <paramref name="backgroundColor"/> is <see cref="Color.Transparent"/></exception>.
+        public static Image RenderToImage2(string html, Size size, Color backgroundColor = new Color()) {
+            if (backgroundColor == Color.Transparent)
+                throw new ArgumentOutOfRangeException("backgroundColor", "Transparent background in not supported");
+
+            CssData cssData = null;
+            EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null;
+            EventHandler<HtmlImageLoadEventArgs> imageLoad = null;
+
+            var image = new Bitmap(size.Width, size.Height, PixelFormat.Format32bppArgb);
             if (!string.IsNullOrEmpty(html)) {
-                using (var container = new HtmlContainer()) {
-                    container.MaxSize = new SizeF(maxWidth, 0);
-                    container.AvoidAsyncImagesLoading = true;
-                    container.AvoidImagesLateLoading = true;
-                    container.UseGdiPlusTextRendering = useGdiPlusTextRendering;
-
-                    if (stylesheetLoad != null)
-                        container.StylesheetLoad += stylesheetLoad;
-                    if (imageLoad != null)
-                        container.ImageLoad += imageLoad;
-
-                    container.SetHtml(html, cssData);
-                    container.PerformLayout(g);
-
-                    actualSize = container.ActualSize;
+                using (var g = Graphics.FromImage(image)) {
+                    g.Clear(backgroundColor);
+                    RenderHtml(g, html, PointF.Empty, size, cssData, true, stylesheetLoad, imageLoad);
                 }
             }
-            return actualSize;
+            return image;
+
         }
+
 
         /// <summary>
-        /// Renders the specified HTML source on the specified location and max size restriction.<br/>
-        /// If <paramref name="maxSize"/>.Width is zero the html will use all the required width, otherwise it will perform line 
-        /// wrap as specified in the html<br/>
-        /// If <paramref name="maxSize"/>.Height is zero the html will use all the required height, otherwise it will clip at the
-        /// given max height not rendering the html below it.<br/>
-        /// Clip the graphics so the html will not be rendered outside the max height bound given.<br/>
-        /// Returned is the actual width and height of the rendered html.<br/>
+        /// Renders the specified HTML into a new image of the requested size.<br/>
+        /// The HTML will be layout by the given size but will be clipped if cannot fit.<br/>
+        /// <p>
+        /// Limitation: The image cannot have transparent background, by default it will be white.<br/>
+        /// See "Rendering to image" remarks section on <see cref="HtmlRender"/>.<br/>
+        /// </p>
         /// </summary>
-        /// <param name="g">Device to render with</param>
         /// <param name="html">HTML source to render</param>
-        /// <param name="location">the top-left most location to start render the html at</param>
-        /// <param name="maxSize">the max size of the rendered html (if height above zero it will be clipped)</param>
-        /// <param name="cssData">optional: the style to use for html rendering (default - use W3 default style)</param>
-        /// <param name="useGdiPlusTextRendering">true - use GDI+ text rendering, false - use GDI text rendering</param>
-        /// <param name="stylesheetLoad">optional: can be used to overwrite stylesheet resolution logic</param>
-        /// <param name="imageLoad">optional: can be used to overwrite image resolution logic</param>
-        /// <returns>the actual size of the rendered html</returns>
-        private static SizeF RenderClip(Graphics g, string html, PointF location, SizeF maxSize, CssData cssData, bool useGdiPlusTextRendering, EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad, EventHandler<HtmlImageLoadEventArgs> imageLoad) {
-            Region prevClip = null;
-            if (maxSize.Height > 0) {
-                prevClip = g.Clip;
-                g.SetClip(new RectangleF(location, maxSize));
+        /// <param name="size">The size of the image to render into, layout html by width and clipped by height</param>
+        /// <param name="backgroundColor">optional: the color to fill the image with (default - white)</param>
+        /// <returns>the generated image of the html</returns>
+        /// <exception cref="ArgumentOutOfRangeException">if <paramref name="backgroundColor"/> is <see cref="Color.Transparent"/></exception>.
+        public static Image RenderToImage3(string html, Size size, Color backgroundColor = new Color()) {
+            if (backgroundColor == Color.Transparent)
+                throw new ArgumentOutOfRangeException("backgroundColor", "Transparent background in not supported");
+
+            CssData cssData = null;
+            EventHandler<HtmlImageLoadEventArgs> imageLoad = null;
+
+            var image = new Bitmap(size.Width, size.Height, PixelFormat.Format32bppArgb);
+            if (!string.IsNullOrEmpty(html)) {
+                using (var g = Graphics.FromImage(image)) {
+                    g.Clear(backgroundColor);
+
+                    using (var container = new HtmlContainer()) {
+                        container.Location = PointF.Empty;
+                        container.MaxSize = size;
+                        container.AvoidAsyncImagesLoading = true;
+                        container.AvoidImagesLateLoading = true;
+                        container.UseGdiPlusTextRendering = true;
+
+                        if (imageLoad != null)
+                            container.ImageLoad += imageLoad;
+
+                        container.SetHtml(html, cssData);
+                        container.PerformLayout(g);
+                        container.PerformPaint(g);
+                    }
+
+                }
             }
+            return image;
 
-            var actualSize = RenderHtml(g, html, location, maxSize, cssData, useGdiPlusTextRendering, stylesheetLoad, imageLoad);
-
-            if (prevClip != null) {
-                g.SetClip(prevClip, CombineMode.Replace);
-            }
-
-            return actualSize;
         }
+
+        public static Image RenderToImage4(string html, Size size, Color backgroundColor = new Color()) {
+            if (backgroundColor == Color.Transparent)
+                throw new ArgumentOutOfRangeException("backgroundColor", "Transparent background in not supported");
+
+            // TODO: use same static css every time we render image to avoid css parsing overhead
+            CssData cssData = null;
+            EventHandler<HtmlImageLoadEventArgs> imageLoad = null;
+            bool useGdiPlusTextRendering = true;
+
+            var image = new Bitmap(size.Width, size.Height, PixelFormat.Format32bppArgb);
+            if (!string.IsNullOrEmpty(html)) {
+                using (var g = Graphics.FromImage(image)) {
+                    g.Clear(backgroundColor);
+
+                    using (var container = new HtmlContainerInt(TestAdapter.Instance)) {
+
+                        //container.SetMargins(0);
+                        //container.PageSize = new TheArtOfDev.HtmlRenderer.Adapters.Entities.RSize(99999, 99999);
+                        container.SetMargins(94);
+                        container.PageSize = Utils.Convert(size);
+                        
+
+                        container.Location = Utils.Convert(PointF.Empty);
+                        container.MaxSize = Utils.Convert(size);
+                        container.AvoidAsyncImagesLoading = true;
+                        container.AvoidImagesLateLoading = true;
+                        
+
+                        // TODO: add custom image loading here
+                        if (imageLoad != null) {
+                            container.ImageLoad += imageLoad;
+                        }
+
+                        container.SetHtml(html, cssData);
+
+                        using (var ig = new GraphicsAdapter(g, useGdiPlusTextRendering)) {
+                            container.PerformLayout(ig);
+                            container.PerformPaint(ig);
+                        }
+                    }
+
+                }
+            }
+            return image;
+
+        }
+
+
+
+
+        #region Private methods
+
 
         /// <summary>
         /// Renders the specified HTML source on the specified location and max size restriction.<br/>

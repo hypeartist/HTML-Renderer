@@ -2,12 +2,14 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Drawing.Imaging;
 using System.Drawing;
+using System.Diagnostics;
 
 namespace HtmlRenderer.Test {
     [TestClass]
     public class RenderToImageTests {
 
         const string html = @"
+<p>Test, TEST, test!</p>
 <h2>Structure, Organization and Hierarchy</h2>
 <p>Spaces automagically organizes items into apps. It should be be possible to&nbsp;re-organize manually into a content hierarchy.
 You can discuss everything:</p>
@@ -55,8 +57,46 @@ You can discuss everything:</p>
 
         [TestMethod]
         public void HtmlToImage() {
-            var image = HtmlRender.RenderToImage(html, new Size(794, 1123), Color.White);
-            image.Save(@"C:\Temp\html.png", ImageFormat.Png);
+            var timer = new Stopwatch();
+            var iter = 10;
+
+            timer.Start();
+            for (int i = 0; i < iter; i++) {
+                var image = HtmlRender.RenderToImage1("<h1>Test1</h1>" + html, new Size(794, 1123), Color.White);
+                image.Save(@"C:\Temp\html1.png", ImageFormat.Png);
+            }
+            timer.Stop();
+            var time1 = timer.ElapsedMilliseconds / iter;
+            
+            timer.Restart();
+            for (int i = 0; i < iter; i++) {
+                var image = HtmlRender.RenderToImage2("<h1>Test2</h1>" + html, new Size(794, 1123), Color.White);
+                image.Save(@"C:\Temp\html2.png", ImageFormat.Png);
+            }
+            timer.Stop();
+            var time2 = timer.ElapsedMilliseconds / iter;
+            
+            timer.Restart();
+            for (int i = 0; i < iter; i++) {
+                var image = HtmlRender.RenderToImage3("<h1>Test3</h1>" + html, new Size(794, 1123), Color.White);
+                image.Save(@"C:\Temp\html3.png", ImageFormat.Png);
+            }
+            timer.Stop();
+            var time3 = timer.ElapsedMilliseconds / iter;
+
+            timer.Restart();
+            for (int i = 0; i < iter; i++) {
+                var image = HtmlRender.RenderToImage4("<h1>Test4</h1>" + html, new Size(794, 1123), Color.White);
+                image.Save(@"C:\Temp\html4.png", ImageFormat.Png);
+            }
+            timer.Stop();
+            var time4 = timer.ElapsedMilliseconds / iter;
+
+            Assert.IsTrue(time1 < 60);
+            Assert.IsTrue(time2 < 60);
+            Assert.IsTrue(time3 < 60);
+            Assert.IsTrue(time4 < 60);
         }
+
     }
 }
