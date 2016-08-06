@@ -51,22 +51,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="BrushAdapter.cs" />
-    <Compile Include="FontAdapter.cs" />
-    <Compile Include="FontFamilyAdapter.cs" />
-    <Compile Include="GraphicsAdapter.cs" />
-    <Compile Include="GraphicsPathAdapter.cs" />
-    <Compile Include="HtmlContainer.cs" />
-    <Compile Include="HtmlRender.cs" />
-    <Compile Include="ImageAdapter.cs" />
-    <Compile Include="PenAdapter.cs" />
     <Compile Include="RenderToImageTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestAdapter.cs" />
-    <Compile Include="Utils.cs" />
-    <Compile Include="Win32Utils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\HtmlRenderer.Web\HtmlRenderer.Web.csproj">
+      <Project>{790923cc-fca8-491f-b8d0-db9b10159b8f}</Project>
+      <Name>HtmlRenderer.Web</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\HtmlRenderer\HtmlRenderer.csproj">
       <Project>{fe611685-391f-4e3e-b27e-d3150e51e49b}</Project>
       <Name>HtmlRenderer</Name>

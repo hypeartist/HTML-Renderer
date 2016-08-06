@@ -1,15 +1,5 @@
-// "Therefore those skilled at the unorthodox
-// are infinite as heaven and earth,
-// inexhaustible as the great rivers.
-// When they come to an end,
-// they begin again,
-// like the days and months;
-// they die and are reborn,
-// like the four seasons."
-// 
-// - Sun Tsu,
-// "The Art of War"
-
+using HtmlRenderer.Web.Adapters;
+using HtmlRenderer.Web.Utilities;
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -20,22 +10,11 @@ using TheArtOfDev.HtmlRenderer.Core.Entities;
 using TheArtOfDev.HtmlRenderer.Core.Utils;
 
 
-namespace HtmlRenderer.Test {
+namespace HtmlRenderer.Web {
     /// <summary>
-    /// Standalone static class for simple and direct HTML rendering.<br/>
-    /// For WinForms UI prefer using HTML controls: <see cref="HtmlPanel"/> or <see cref="HtmlLabel"/>.<br/>
-    /// For low-level control and performance consider using <see cref="HtmlContainer"/>.<br/>
+    /// Standalone static class for rendering HTML to image..
     /// </summary>
     /// <remarks>
-    /// <para>
-    /// <b>GDI vs. GDI+ text rendering</b><br/>
-    /// Windows supports two text rendering technologies: GDI and GDI+.<br/> 
-    /// GDI is older, has better performance and looks better on standard monitors but doesn't support alpha channel for transparency.<br/> 
-    /// GDI+ is newer, device independent so work better for printers but is slower and looks worse on monitors.<br/>
-    /// HtmlRender supports both GDI and GDI+ text rendering to accommodate different needs, GDI+ text rendering methods have "GdiPlus" suffix
-    /// in their name where GDI do not.<br/>
-    /// </para>
-    /// <para>
     /// <b>Rendering to image</b><br/>
     /// See https://htmlrenderer.codeplex.com/wikipage?title=Image%20generation <br/>
     /// Because of GDI text rendering issue with alpha channel clear type text rendering rendering to image requires special handling.<br/>
@@ -227,13 +206,12 @@ namespace HtmlRenderer.Test {
             // TODO: use same static css every time we render image to avoid css parsing overhead
             CssData cssData = null;
             EventHandler<HtmlImageLoadEventArgs> imageLoad = null;
-            bool useGdiPlusTextRendering = true;
 
             var image = new Bitmap(width, height, PixelFormat.Format32bppArgb);
             using (var g = Graphics.FromImage(image)) {
                 g.Clear(backgroundColor);
 
-                using (var container = new HtmlContainerInt(TestAdapter.Instance)) {
+                using (var container = new HtmlContainerInt(WebAdapter.Instance)) {
                     //container.SetMargins(margin);
                     container.PageSize = new TheArtOfDev.HtmlRenderer.Adapters.Entities.RSize(width, height);
 
@@ -250,7 +228,7 @@ namespace HtmlRenderer.Test {
 
                     container.SetHtml(html, cssData);
 
-                    using (var ig = new GraphicsAdapter(g, useGdiPlusTextRendering)) {
+                    using (var ig = new GraphicsAdapter(g)) {
                         container.PerformLayout(ig);
                         container.PerformPaint(ig);
                     }

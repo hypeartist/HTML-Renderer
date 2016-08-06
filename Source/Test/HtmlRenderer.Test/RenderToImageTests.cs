@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Drawing.Imaging;
 using System.Drawing;
 using System.Diagnostics;
+using HtmlRenderer.Web;
 
 namespace HtmlRenderer.Test {
     [TestClass]

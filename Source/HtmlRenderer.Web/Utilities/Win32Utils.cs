@@ -15,7 +15,7 @@ using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
 
-namespace HtmlRenderer.Test {
+namespace HtmlRenderer.Web.Utilities{
     /// <summary>
     /// Utility for Win32 API.
     /// </summary>

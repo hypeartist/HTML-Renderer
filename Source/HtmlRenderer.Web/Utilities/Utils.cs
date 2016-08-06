@@ -14,7 +14,7 @@ using System;
 using System.Drawing;
 using TheArtOfDev.HtmlRenderer.Adapters.Entities;
 
-namespace HtmlRenderer.Test {
+namespace HtmlRenderer.Web.Utilities{
     /// <summary>
     /// Utilities for converting WinForms entities to HtmlRenderer core entities.
     /// </summary>

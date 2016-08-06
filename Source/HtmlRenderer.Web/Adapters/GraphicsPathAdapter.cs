@@ -14,8 +14,7 @@ using System;
 using System.Drawing.Drawing2D;
 using TheArtOfDev.HtmlRenderer.Adapters;
 using TheArtOfDev.HtmlRenderer.Adapters.Entities;
-
-namespace HtmlRenderer.Test {
+namespace HtmlRenderer.Web.Adapters{
     /// <summary>
     /// Adapter for WinForms graphics path object for core.
     /// </summary>

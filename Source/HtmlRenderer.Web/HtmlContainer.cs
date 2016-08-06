@@ -10,6 +10,8 @@
 // - Sun Tsu,
 // "The Art of War"
 
+using HtmlRenderer.Web.Adapters;
+using HtmlRenderer.Web.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -20,7 +22,7 @@ using TheArtOfDev.HtmlRenderer.Core;
 using TheArtOfDev.HtmlRenderer.Core.Entities;
 using TheArtOfDev.HtmlRenderer.Core.Utils;
 
-namespace HtmlRenderer.Test {
+namespace HtmlRenderer.Web {
     /// <summary>
     /// Low level handling of Html Renderer logic, this class is used by <see cref="HtmlRender"/>.
     /// </summary>
@@ -45,7 +47,7 @@ namespace HtmlRenderer.Test {
         /// Init.
         /// </summary>
         public HtmlContainer() {
-            _htmlContainerInt = new HtmlContainerInt(TestAdapter.Instance);
+            _htmlContainerInt = new HtmlContainerInt(WebAdapter.Instance);
             _htmlContainerInt.SetMargins(0);
             _htmlContainerInt.PageSize = new RSize(99999, 99999);
         }
@@ -345,7 +347,7 @@ namespace HtmlRenderer.Test {
         public void PerformLayout(Graphics g) {
             ArgChecker.AssertArgNotNull(g, "g");
 
-            using (var ig = new GraphicsAdapter(g, _useGdiPlusTextRendering)) {
+            using (var ig = new GraphicsAdapter(g)) {
                 _htmlContainerInt.PerformLayout(ig);
             }
         }
@@ -357,7 +359,7 @@ namespace HtmlRenderer.Test {
         public void PerformPaint(Graphics g) {
             ArgChecker.AssertArgNotNull(g, "g");
 
-            using (var ig = new GraphicsAdapter(g, _useGdiPlusTextRendering)) {
+            using (var ig = new GraphicsAdapter(g)) {
                 _htmlContainerInt.PerformPaint(ig);
             }
         }

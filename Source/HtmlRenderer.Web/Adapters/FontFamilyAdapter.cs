@@ -13,7 +13,7 @@
 using System.Drawing;
 using TheArtOfDev.HtmlRenderer.Adapters;
 
-namespace HtmlRenderer.Test {
+namespace HtmlRenderer.Web.Adapters{
 
     /// <summary>
     /// Adapter for WinForms Font family object for core.

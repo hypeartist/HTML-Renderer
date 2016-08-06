@@ -15,24 +15,24 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using TheArtOfDev.HtmlRenderer.Adapters.Entities;
 using TheArtOfDev.HtmlRenderer.Adapters;
+using HtmlRenderer.Web.Utilities;
 
-
-namespace HtmlRenderer.Test {
+namespace HtmlRenderer.Web.Adapters{
 
     /// <summary>
     /// Test Adapter for tests.
     /// </summary>
-    internal sealed class TestAdapter : RAdapter {
+    internal sealed class WebAdapter : RAdapter {
 
         /// <summary>
         /// Singleton instance of global adapter.
         /// </summary>
-        private static readonly TestAdapter _instance = new TestAdapter();
+        private static readonly WebAdapter _instance = new WebAdapter();
 
         /// <summary>
         /// Init installed font families and set default font families mapping.
         /// </summary>
-        private TestAdapter() {
+        private WebAdapter() {
             AddFontFamilyMapping("monospace", "Courier New");
             AddFontFamilyMapping("Helvetica", "Arial");
 
@@ -44,7 +44,7 @@ namespace HtmlRenderer.Test {
         /// <summary>
         /// Singleton instance of global adapter.
         /// </summary>
-        public static TestAdapter Instance {
+        public static WebAdapter Instance {
             get { return _instance; }
         }
 

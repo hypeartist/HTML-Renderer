@@ -14,7 +14,7 @@ using System.Drawing;
 using TheArtOfDev.HtmlRenderer.Adapters.Entities;
 using TheArtOfDev.HtmlRenderer.Adapters;
 
-namespace HtmlRenderer.Test {
+namespace HtmlRenderer.Web.Adapters{
 
     /// <summary>
     /// Adapter for WinForms pens objects for core.
