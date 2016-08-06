@@ -234,12 +234,9 @@ namespace HtmlRenderer.Test {
                 g.Clear(backgroundColor);
 
                 using (var container = new HtmlContainerInt(TestAdapter.Instance)) {
-
-                    //container.SetMargins(0);
-                    //container.PageSize = new TheArtOfDev.HtmlRenderer.Adapters.Entities.RSize(99999, 99999);
+                    //container.SetMargins(margin);
                     container.PageSize = new TheArtOfDev.HtmlRenderer.Adapters.Entities.RSize(width, height);
 
-                    //container.Location = Utils.Convert(new PointF(94, 94));
                     container.Location = new TheArtOfDev.HtmlRenderer.Adapters.Entities.RPoint(margin, margin);
                     container.MaxSize = new TheArtOfDev.HtmlRenderer.Adapters.Entities.RSize(width - margin * 2, height - margin * 2);
                     container.AvoidAsyncImagesLoading = true;

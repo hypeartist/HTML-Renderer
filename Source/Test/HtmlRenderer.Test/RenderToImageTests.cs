@@ -25,7 +25,7 @@ You can discuss everything.</p>
 <p>Creating content should always be possible with the click of a button (1-click publish). Ask to save in a space. If you don't select a space it is created in your ""personal"" space?</p>
 <p>We need a visible search form on all pages. In navbar?</p>
 <p>Flat, colorful, bold and graphic interface (Material Design). Replace boring font-awesome with multi-color icons.</p>
-<img src=""https://d13yacurqjgara.cloudfront.net/users/452514/screenshots/1853419/education-flat-colored-icons.jpg"" alt="""" width=""100%"">
+<img src=""https://d13yacurqjgara.cloudfront.net/users/452514/screenshots/1853419/education-flat-colored-icons.jpg"" alt="""" style=""max-width:100%"">
 <h2>Document collaboration</h2>
 <ul>
 <li>Full screen editor</li>
