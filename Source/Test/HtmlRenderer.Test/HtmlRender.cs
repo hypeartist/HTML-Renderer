@@ -214,48 +214,51 @@ namespace HtmlRenderer.Test {
 
         }
 
-        public static Image RenderToImage4(string html, Size size, Color backgroundColor = new Color()) {
-            if (backgroundColor == Color.Transparent)
-                throw new ArgumentOutOfRangeException("backgroundColor", "Transparent background in not supported");
+        public static Image RenderToImage4(string html, int width, int height, int margin = 0, Color backgroundColor = new Color()) {
+            if (string.IsNullOrWhiteSpace(html)) {
+                return null;
+            }
+
+            if (backgroundColor == Color.Transparent) {
+                throw new ArgumentOutOfRangeException(nameof(backgroundColor), "Transparent background in not supported");
+            }
+
 
             // TODO: use same static css every time we render image to avoid css parsing overhead
             CssData cssData = null;
             EventHandler<HtmlImageLoadEventArgs> imageLoad = null;
             bool useGdiPlusTextRendering = true;
 
-            var image = new Bitmap(size.Width, size.Height, PixelFormat.Format32bppArgb);
-            if (!string.IsNullOrEmpty(html)) {
-                using (var g = Graphics.FromImage(image)) {
-                    g.Clear(backgroundColor);
+            var image = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+            using (var g = Graphics.FromImage(image)) {
+                g.Clear(backgroundColor);
 
-                    using (var container = new HtmlContainerInt(TestAdapter.Instance)) {
+                using (var container = new HtmlContainerInt(TestAdapter.Instance)) {
 
-                        //container.SetMargins(0);
-                        //container.PageSize = new TheArtOfDev.HtmlRenderer.Adapters.Entities.RSize(99999, 99999);
-                        container.SetMargins(94);
-                        container.PageSize = Utils.Convert(size);
-                        
+                    //container.SetMargins(0);
+                    //container.PageSize = new TheArtOfDev.HtmlRenderer.Adapters.Entities.RSize(99999, 99999);
+                    container.PageSize = new TheArtOfDev.HtmlRenderer.Adapters.Entities.RSize(width, height);
 
-                        container.Location = Utils.Convert(PointF.Empty);
-                        container.MaxSize = Utils.Convert(size);
-                        container.AvoidAsyncImagesLoading = true;
-                        container.AvoidImagesLateLoading = true;
-                        
+                    //container.Location = Utils.Convert(new PointF(94, 94));
+                    container.Location = new TheArtOfDev.HtmlRenderer.Adapters.Entities.RPoint(margin, margin);
+                    container.MaxSize = new TheArtOfDev.HtmlRenderer.Adapters.Entities.RSize(width - margin * 2, height - margin * 2);
+                    container.AvoidAsyncImagesLoading = true;
+                    container.AvoidImagesLateLoading = true;
 
-                        // TODO: add custom image loading here
-                        if (imageLoad != null) {
-                            container.ImageLoad += imageLoad;
-                        }
 
-                        container.SetHtml(html, cssData);
-
-                        using (var ig = new GraphicsAdapter(g, useGdiPlusTextRendering)) {
-                            container.PerformLayout(ig);
-                            container.PerformPaint(ig);
-                        }
+                    // TODO: add custom image loading here
+                    if (imageLoad != null) {
+                        container.ImageLoad += imageLoad;
                     }
 
+                    container.SetHtml(html, cssData);
+
+                    using (var ig = new GraphicsAdapter(g, useGdiPlusTextRendering)) {
+                        container.PerformLayout(ig);
+                        container.PerformPaint(ig);
+                    }
                 }
+
             }
             return image;
 
