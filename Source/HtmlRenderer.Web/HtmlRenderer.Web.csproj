@@ -86,11 +86,9 @@
     <Compile Include="Adapters\ImageAdapter.cs" />
     <Compile Include="Adapters\PenAdapter.cs" />
     <Compile Include="Adapters\WebAdapter.cs" />
-    <Compile Include="HtmlContainer.cs" />
     <Compile Include="HtmlRender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\Utils.cs" />
-    <Compile Include="Utilities\Win32Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HtmlRenderer\HtmlRenderer.csproj">

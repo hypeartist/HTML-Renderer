@@ -1,27 +1,15 @@
-﻿// "Therefore those skilled at the unorthodox
-// are infinite as heaven and earth,
-// inexhaustible as the great rivers.
-// When they come to an end,
-// they begin again,
-// like the days and months;
-// they die and are reborn,
-// like the four seasons."
-// 
-// - Sun Tsu,
-// "The Art of War"
-
-using System.Drawing;
+﻿using System.Drawing;
 using TheArtOfDev.HtmlRenderer.Adapters.Entities;
 using TheArtOfDev.HtmlRenderer.Adapters;
 
 namespace HtmlRenderer.Web.Adapters{
 
     /// <summary>
-    /// Adapter for WinForms pens objects for core.
+    /// Adapter for System.Drawing pens objects for core.
     /// </summary>
     internal sealed class PenAdapter : RPen {
         /// <summary>
-        /// The actual WinForms brush instance.
+        /// The actual System.Drawing brush instance.
         /// </summary>
         private readonly Pen _pen;
 
@@ -33,7 +21,7 @@ namespace HtmlRenderer.Web.Adapters{
         }
 
         /// <summary>
-        /// The actual WinForms brush instance.
+        /// The actual System.Drawing brush instance.
         /// </summary>
         public Pen Pen {
             get { return _pen; }

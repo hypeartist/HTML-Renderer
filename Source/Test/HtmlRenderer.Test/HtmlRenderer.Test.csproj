@@ -59,6 +59,10 @@
       <Project>{790923cc-fca8-491f-b8d0-db9b10159b8f}</Project>
       <Name>HtmlRenderer.Web</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\HtmlRenderer.WinForms\HtmlRenderer.WinForms.csproj">
+      <Project>{1b058920-24b4-4140-8ae7-c8c6c38ca52d}</Project>
+      <Name>HtmlRenderer.WinForms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\HtmlRenderer\HtmlRenderer.csproj">
       <Project>{fe611685-391f-4e3e-b27e-d3150e51e49b}</Project>
       <Name>HtmlRenderer</Name>

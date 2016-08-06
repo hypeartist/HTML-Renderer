@@ -1,26 +1,14 @@
-﻿// "Therefore those skilled at the unorthodox
-// are infinite as heaven and earth,
-// inexhaustible as the great rivers.
-// When they come to an end,
-// they begin again,
-// like the days and months;
-// they die and are reborn,
-// like the four seasons."
-// 
-// - Sun Tsu,
-// "The Art of War"
-
+﻿using HtmlRenderer.Web.Utilities;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
-using TheArtOfDev.HtmlRenderer.Adapters.Entities;
 using TheArtOfDev.HtmlRenderer.Adapters;
-using HtmlRenderer.Web.Utilities;
+using TheArtOfDev.HtmlRenderer.Adapters.Entities;
 
-namespace HtmlRenderer.Web.Adapters{
+namespace HtmlRenderer.Web.Adapters {
 
     /// <summary>
-    /// Test Adapter for tests.
+    /// AAdapter for web use.
     /// </summary>
     internal sealed class WebAdapter : RAdapter {
 
@@ -92,31 +80,5 @@ namespace HtmlRenderer.Web.Adapters{
             var fontStyle = (FontStyle)((int)style);
             return new FontAdapter(new Font(((FontFamilyAdapter)family).FontFamily, (float)size, fontStyle));
         }
-
-        //protected override object GetClipboardDataObjectInt(string html, string plainText) {
-        //    return ClipboardHelper.CreateDataObject(html, plainText);
-        //}
-
-        //protected override void SetToClipboardInt(string text) {
-        //    ClipboardHelper.CopyToClipboard(text);
-        //}
-
-        //protected override void SetToClipboardInt(string html, string plainText) {
-        //    ClipboardHelper.CopyToClipboard(html, plainText);
-        //}
-
-        //protected override void SetToClipboardInt(RImage image) {
-        //    Clipboard.SetImage(((ImageAdapter)image).Image);
-        //}
-
-        //protected override RContextMenu CreateContextMenuInt() {
-        //    return new ContextMenuAdapter();
-        //}
-
-        //protected override void SaveToFileInt(RImage image, string name, string extension, RControl control = null) {
-          
-        //            ((ImageAdapter)image).Image.Save(@"C:\Temp\" + name);
-          
-        //}
     }
 }

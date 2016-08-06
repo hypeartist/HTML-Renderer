@@ -1,15 +1,3 @@
-// "Therefore those skilled at the unorthodox
-// are infinite as heaven and earth,
-// inexhaustible as the great rivers.
-// When they come to an end,
-// they begin again,
-// like the days and months;
-// they die and are reborn,
-// like the four seasons."
-// 
-// - Sun Tsu,
-// "The Art of War"
-
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -18,10 +6,10 @@ using TheArtOfDev.HtmlRenderer.Core.Utils;
 using TheArtOfDev.HtmlRenderer.Adapters;
 using HtmlRenderer.Web.Utilities;
 
-namespace HtmlRenderer.Web.Adapters{
+namespace HtmlRenderer.Web.Adapters {
 
     /// <summary>
-    /// Adapter for WinForms Graphics for core.
+    /// Adapter for System.Drawing Graphics for core.
     /// </summary>
     internal sealed class GraphicsAdapter : RGraphics {
 

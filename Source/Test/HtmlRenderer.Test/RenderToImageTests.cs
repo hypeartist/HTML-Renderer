@@ -53,42 +53,29 @@ You can discuss everything.</p>
             var timer = new Stopwatch();
             var iter = 10;
 
+            // warmup
+            var image = TheArtOfDev.HtmlRenderer.WinForms.HtmlRender.RenderToImage("<h1>HtmlRenderer.WinForms</h1>" + html, new Size(794, 1123), Color.White);
+            image = HtmlRender.RenderToImage("<h1>HtmlRenderer.Web</h1>" + html, 794, 1123, 94, Color.White);
+
             timer.Start();
             for (int i = 0; i < iter; i++) {
-                var image = HtmlRender.RenderToImage1("<h1>Test1</h1>" + html, new Size(794, 1123), Color.White);
+                image = TheArtOfDev.HtmlRenderer.WinForms.HtmlRender.RenderToImage("<h1>HtmlRenderer.WinForms</h1>" + html, new Size(794, 1123), Color.White);
                 image.Save(@"C:\Temp\html1.png", ImageFormat.Png);
             }
             timer.Stop();
             var time1 = timer.ElapsedMilliseconds / iter;
+         
             
             timer.Restart();
             for (int i = 0; i < iter; i++) {
-                var image = HtmlRender.RenderToImage2("<h1>Test2</h1>" + html, new Size(794, 1123), Color.White);
+                image = HtmlRender.RenderToImage("<h1>HtmlRenderer.Web</h1>" + html, 794, 1123, 94, Color.White);
                 image.Save(@"C:\Temp\html2.png", ImageFormat.Png);
             }
             timer.Stop();
             var time2 = timer.ElapsedMilliseconds / iter;
-            
-            timer.Restart();
-            for (int i = 0; i < iter; i++) {
-                var image = HtmlRender.RenderToImage3("<h1>Test3</h1>" + html, new Size(794, 1123), Color.White);
-                image.Save(@"C:\Temp\html3.png", ImageFormat.Png);
-            }
-            timer.Stop();
-            var time3 = timer.ElapsedMilliseconds / iter;
-
-            timer.Restart();
-            for (int i = 0; i < iter; i++) {
-                var image = HtmlRender.RenderToImage4("<h1>Test4</h1>" + html, 794, 1123, 94, Color.White);
-                image.Save(@"C:\Temp\html4.png", ImageFormat.Png);
-            }
-            timer.Stop();
-            var time4 = timer.ElapsedMilliseconds / iter;
 
             Assert.IsTrue(time1 < 60);
             Assert.IsTrue(time2 < 60);
-            Assert.IsTrue(time3 < 60);
-            Assert.IsTrue(time4 < 60);
         }
 
     }

@@ -1,26 +1,15 @@
-﻿// "Therefore those skilled at the unorthodox
-// are infinite as heaven and earth,
-// inexhaustible as the great rivers.
-// When they come to an end,
-// they begin again,
-// like the days and months;
-// they die and are reborn,
-// like the four seasons."
-// 
-// - Sun Tsu,
-// "The Art of War"
-
-using System;
+﻿using System;
 using System.Drawing.Drawing2D;
 using TheArtOfDev.HtmlRenderer.Adapters;
 using TheArtOfDev.HtmlRenderer.Adapters.Entities;
-namespace HtmlRenderer.Web.Adapters{
+
+namespace HtmlRenderer.Web.Adapters {
     /// <summary>
-    /// Adapter for WinForms graphics path object for core.
+    /// Adapter for System.Drawing graphics path object for core.
     /// </summary>
     internal sealed class GraphicsPathAdapter : RGraphicsPath {
         /// <summary>
-        /// The actual WinForms graphics path instance.
+        /// The actual System.Drawing graphics path instance.
         /// </summary>
         private readonly GraphicsPath _graphicsPath = new GraphicsPath();
 
@@ -30,7 +19,7 @@ namespace HtmlRenderer.Web.Adapters{
         private RPoint _lastPoint;
 
         /// <summary>
-        /// The actual WinForms graphics path instance.
+        /// The actual System.Drawing graphics path instance.
         /// </summary>
         public GraphicsPath GraphicsPath {
             get { return _graphicsPath; }

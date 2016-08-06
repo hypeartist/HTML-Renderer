@@ -1,27 +1,14 @@
-﻿// "Therefore those skilled at the unorthodox
-// are infinite as heaven and earth,
-// inexhaustible as the great rivers.
-// When they come to an end,
-// they begin again,
-// like the days and months;
-// they die and are reborn,
-// like the four seasons."
-// 
-// - Sun Tsu,
-// "The Art of War"
-
-using System.Drawing;
+﻿using System.Drawing;
 using TheArtOfDev.HtmlRenderer.Adapters;
 
-namespace HtmlRenderer.Web.Adapters{
+namespace HtmlRenderer.Web.Adapters {
 
     /// <summary>
-    /// Adapter for WinForms brushes objects for core.
+    /// Adapter for System.Drawing brushes objects for core.
     /// </summary>
-    internal sealed class BrushAdapter : RBrush
-    {
+    internal sealed class BrushAdapter : RBrush {
         /// <summary>
-        /// The actual WinForms brush instance.
+        /// The actual System.Drawing brush instance.
         /// </summary>
         private readonly Brush _brush;
 
@@ -34,24 +21,20 @@ namespace HtmlRenderer.Web.Adapters{
         /// <summary>
         /// Init.
         /// </summary>
-        public BrushAdapter(Brush brush, bool dispose)
-        {
+        public BrushAdapter(Brush brush, bool dispose) {
             _brush = brush;
             _dispose = dispose;
         }
 
         /// <summary>
-        /// The actual WinForms brush instance.
+        /// The actual System.Drawing brush instance.
         /// </summary>
-        public Brush Brush
-        {
+        public Brush Brush {
             get { return _brush; }
         }
 
-        public override void Dispose()
-        {
-            if (_dispose)
-            {
+        public override void Dispose() {
+            if (_dispose) {
                 _brush.Dispose();
             }
         }
